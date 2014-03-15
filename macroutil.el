@@ -1,6 +1,3 @@
-(define-minor-mode macroutil-minor-mode "" nil nil
-  (list (cons (kbd "C-c m") 'macroutil-macroexpand-sexp-at-point)))
-
 (defun macroutil-macroexpand-sexp-at-point (&optional all)
   "Show the macro expansion of the form after point in another \
 window.
@@ -34,5 +31,11 @@ With non-nil prefix argument ALL, expand subforms as well."
             (goto-char (point-min)))))
     (error
      (message "Can't do macro expansion: %S" err))))
+
+(define-minor-mode macroutil-minor-mode "" nil nil
+  (list (cons (kbd "C-c m") 'macroutil-macroexpand-sexp-at-point)
+        (cons (kbd "C-c M-m") (lambda ()
+                                (interactive)
+                                (macroutil-macroexpand-sexp-at-point t)))))
 
 (provide 'macroutil)
