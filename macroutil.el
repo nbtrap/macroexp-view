@@ -1,3 +1,6 @@
+(define-minor-mode macroutil-minor-mode "" nil nil
+  ((kbd "C-c M-m") . 'macroutil-macroexpand-sexp-at-point))
+
 (defun macroutil-macroexpand-sexp-at-point (&optional all)
   "Show the macro expansion of the form after point in another \
 window.
