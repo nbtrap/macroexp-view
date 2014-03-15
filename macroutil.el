@@ -1,8 +1,7 @@
 (defun macroutil-macroexpand-sexp-at-point (&optional all)
   "Show the macro expansion of the form after point in another \
 window.
-When ALL is non-nil, call `macroexpand-all' instead of just
-`macroexpand'."
+With non-nil prefix argument ALL, expand subforms as well."
   (interactive "P")
   (condition-case err
       (save-excursion
