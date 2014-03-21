@@ -22,22 +22,23 @@
           (setq beg (point)))
         (cond
          (inline
-           (save-excursion
-             ;; Inhibit read-only if we're in the special expansion buffer.
-             (let ((inhibit-read-only
-                    (if (string= (buffer-name (current-buffer))
-                                 macroutil-macroexp-buffer-name)
-                        t
-                      inhibit-read-only)))
-               (delete-region beg end)
-              (goto-char beg)
-              (pp macroexpanded-obj (current-buffer))
-              ;; `pp' sometimes prints a line-feed at the end of its output.
-              (when (bolp)
-                (delete-char -1)))))
+           (unless (eq obj macroexpanded-obj)
+            (save-excursion
+              ;; Inhibit read-only if we're in the special expansion buffer.
+              (let ((inhibit-read-only
+                     (if (string= (buffer-name (current-buffer))
+                                  macroutil-macroexp-buffer-name)
+                         t
+                       inhibit-read-only)))
+                (delete-region beg end)
+                (goto-char beg)
+                (pp macroexpanded-obj (current-buffer))
+                ;; `pp' sometimes prints a line-feed at the end of its output.
+                (when (bolp)
+                  (delete-char -1))))))
          (t
           (let* ((buf (get-buffer-create macroutil-macroexp-buffer-name)))
-            (when (not (eq buf (current-buffer)))
+            (unless (eq buf (current-buffer))
               (pop-to-buffer buf))
             (emacs-lisp-mode)
             (view-mode)
@@ -58,8 +59,9 @@
         ;; Indent the new sexp.  We can inhibit read-only indiscriminately at
         ;; this point, since we would have already failed if we weren't supposed
         ;; to be writing in the buffer.
-        (let ((inhibit-read-only t))
-          (indent-region (point) (save-excursion (forward-sexp) (point)))))
+        (unless (eq obj macroexpanded-obj)
+          (let ((inhibit-read-only t))
+            (indent-region (point) (save-excursion (forward-sexp) (point))))))
     (error
      (message "Can't do macro expansion: %s (%s)"
               (error-message-string err) (car err)))))
