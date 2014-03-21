@@ -1,4 +1,5 @@
 ;;;; -*- lexical-binding: t -*-
+
 (defun macroutil--macroexpand-sexp-at-point (all inline)
   ;; Do the heavy lifting of the macroexpansion.
   (condition-case err
@@ -37,21 +38,21 @@
                  (already-there (eq buf (current-buffer))))
             (when (not already-there)
               (pop-to-buffer buf))
-            (use-local-map (copy-keymap (or (current-local-map)
-                                            (make-sparse-keymap))))
-            (view-mode 0)
-            (widen)
-            (erase-buffer)
-            (pp macroexpanded-obj (current-buffer))
-            (goto-char (point-min))
-            (emacs-lisp-mode)
             (view-mode)
-            ;; Undo should work even though the buffer is otherwise read-only.
-            (local-set-key [remap undo]
-             (lambda ()
-               (interactive)
-               (let ((inhibit-read-only t))
-                 (call-interactively 'undo))))))))
+            (let ((inhibit-read-only t))
+              (widen)
+              (erase-buffer)
+              (pp macroexpanded-obj (current-buffer))
+              (goto-char (point-min))
+              (emacs-lisp-mode)
+              ;; Undo should work even though the buffer is otherwise read-only.
+              (use-local-map (copy-keymap (or (current-local-map)
+                                              (make-sparse-keymap))))
+              (local-set-key [remap undo]
+                             (lambda ()
+                               (interactive)
+                               (let ((inhibit-read-only t))
+                                 (call-interactively 'undo)))))))))
     (error
      (message "Can't do macro expansion: %s (%s)"
               (error-message-string err) (car err)))))
