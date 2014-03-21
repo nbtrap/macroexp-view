@@ -63,6 +63,6 @@
 
 (define-minor-mode macroutil-minor-mode "" nil nil
   (list (cons (kbd "C-c m") 'macroutil-macroexpand-sexp-at-point)
-        (cons (kbd "C-c M-m") 'macroutil-macroexpand-sext-at-point-inline)))
+        (cons (kbd "C-c M-m") 'macroutil-macroexpand-sexp-at-point-inline)))
 
 (provide 'macroutil)
