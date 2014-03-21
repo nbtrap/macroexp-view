@@ -8,7 +8,7 @@
       (let* ((obj (save-excursion
                     (read (current-buffer))))
              (macroexpanded-obj
-              (funcall (if all 'macroexpand-all 'macroexpand) obj))
+              (funcall (if all #'macroexpand-all #'macroexpand) obj))
              (beg (save-excursion
                     (forward-sexp)
                     (forward-sexp -1)
@@ -54,7 +54,7 @@
                                "Same as `undo', but inhibit read-only."
                                (interactive)
                                (let ((inhibit-read-only t))
-                                 (call-interactively 'undo))))))))
+                                 (call-interactively #'undo))))))))
         ;; Indent the new sexp.  We can inhibit read-only indiscriminately at
         ;; this point, since we would have already failed if we weren't supposed
         ;; to be writing in the buffer.
