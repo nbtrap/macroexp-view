@@ -20,6 +20,7 @@
         (cond
          (inline
            (save-excursion
+             ;; Inhibit read-only if we're in the special expansion buffer.
              (let ((inhibit-read-only
                     (if (string= (buffer-name (current-buffer))
                                  "*Macro expansion*")
@@ -28,6 +29,7 @@
                (delete-region beg end)
               (goto-char beg)
               (pp macroexpanded-obj (current-buffer))
+              ;; `pp' sometimes prints a line-feed at the end of its output.
               (when (bolp)
                 (delete-char -1)))))
          (t
