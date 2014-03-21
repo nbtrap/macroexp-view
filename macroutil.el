@@ -1,5 +1,6 @@
 ;;;; -*- lexical-binding: t -*-
 (defun macroutil--macroexpand-sexp-at-point (all inline)
+  ;; Do the heavy lifting of the macroexpansion.
   (condition-case err
       (let* ((obj (save-excursion
                     (read (current-buffer))))
@@ -54,14 +55,20 @@
               (error-message-string err) (car err)))))
 
 (defun macroutil-macroexpand-sexp-at-point (&optional all)
+  "Macroexpand the S-expression at point, displaying the result in a \
+different buffer.
+Prefix argument ALL means expand all subforms too, as with
+`macroexpand-all'."
   (interactive "P")
   (macroutil--macroexpand-sexp-at-point all nil))
 
 (defun macroutil-macroexpand-sexp-at-point-inline (&optional all)
+  "Replace the S-expression at point with a macroexpanded version thereof.
+Prefix argument ALL means expand all subforms too, as with `macroexpand-all'"
   (interactive "P")
   (macroutil--macroexpand-sexp-at-point all t))
 
-(define-minor-mode macroutil-minor-mode "" nil nil
+(define-minor-mode macroutil-minor-mode nil nil nil
   (list (cons (kbd "C-c m") 'macroutil-macroexpand-sexp-at-point)
         (cons (kbd "C-c M-m") 'macroutil-macroexpand-sexp-at-point-inline)))
 
