@@ -51,6 +51,7 @@
                                               (make-sparse-keymap))))
               (local-set-key [remap undo]
                              (lambda ()
+                               "Same as `undo', but inhibit read-only."
                                (interactive)
                                (let ((inhibit-read-only t))
                                  (call-interactively 'undo))))))))
@@ -66,14 +67,13 @@
 (defun macroutil-macroexpand-sexp-at-point (&optional all)
   "Macroexpand the S-expression at point, displaying the result in a \
 different buffer.
-Prefix argument ALL means expand all subforms too, as with
-`macroexpand-all'."
+Prefix argument ALL means expand all subforms too, as with `macroexpand-all'."
   (interactive "P")
   (macroutil--macroexpand-sexp-at-point all nil))
 
 (defun macroutil-macroexpand-sexp-at-point-inline (&optional all)
   "Replace the S-expression at point with a macroexpanded version thereof.
-Prefix argument ALL means expand all subforms too, as with `macroexpand-all'"
+Prefix argument ALL means expand all subforms too, as with `macroexpand-all'."
   (interactive "P")
   (macroutil--macroexpand-sexp-at-point all t))
 
