@@ -1,5 +1,7 @@
 ;;;; -*- lexical-binding: t -*-
 
+(defconst macroutil-macroexp-buffer-name "*Macro expansion*")
+
 (defun macroutil--macroexpand-sexp-at-point (all inline)
   ;; Do the heavy lifting of the macroexpansion.
   (condition-case err
@@ -24,7 +26,7 @@
              ;; Inhibit read-only if we're in the special expansion buffer.
              (let ((inhibit-read-only
                     (if (string= (buffer-name (current-buffer))
-                                 "*Macro expansion*")
+                                 macroutil-macroexp-buffer-name)
                         t
                       inhibit-read-only)))
                (delete-region beg end)
@@ -34,17 +36,16 @@
               (when (bolp)
                 (delete-char -1)))))
          (t
-          (let* ((buf (get-buffer-create "*Macro expansion*"))
-                 (already-there (eq buf (current-buffer))))
-            (when (not already-there)
+          (let* ((buf (get-buffer-create macroutil-macroexp-buffer-name)))
+            (when (not (eq buf (current-buffer)))
               (pop-to-buffer buf))
+            (emacs-lisp-mode)
             (view-mode)
             (let ((inhibit-read-only t))
               (widen)
               (erase-buffer)
               (pp macroexpanded-obj (current-buffer))
               (goto-char (point-min))
-              (emacs-lisp-mode)
               ;; Undo should work even though the buffer is otherwise read-only.
               (use-local-map (copy-keymap (or (current-local-map)
                                               (make-sparse-keymap))))
@@ -52,7 +53,12 @@
                              (lambda ()
                                (interactive)
                                (let ((inhibit-read-only t))
-                                 (call-interactively 'undo)))))))))
+                                 (call-interactively 'undo))))))))
+        ;; Indent the new sexp.  We can inhibit read-only indiscriminately at
+        ;; this point, since we would have already failed if we weren't supposed
+        ;; to be writing in the buffer.
+        (let ((inhibit-read-only t))
+          (indent-region (point) (save-excursion (forward-sexp) (point)))))
     (error
      (message "Can't do macro expansion: %s (%s)"
               (error-message-string err) (car err)))))
