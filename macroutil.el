@@ -43,6 +43,7 @@
             (goto-char (point-min))
             (emacs-lisp-mode)
             (view-mode)
+            ;; Undo should work even though the buffer is otherwise read-only.
             (local-set-key [remap undo]
              (lambda ()
                (interactive)
