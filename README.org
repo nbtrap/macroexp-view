@@ -1,0 +1,14 @@
+#+TITLE: macroexp-view
+
+* DESCRIPTION
+
+Convenience commands for quickly and easily viewing macro expansions.
+
+* SYNOPSIS
+
+#+BEGIN_SRC emacs-lisp
+  (require 'macroexp-view)
+  
+  (add-hook 'emacs-lisp-mode-hook 'macroexp-view-minor-mode)
+  (add-hook 'ielm-mode-hook 'macroexp-view-minor-mode)
+#+END_SRC
