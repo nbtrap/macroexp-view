@@ -1,8 +1,8 @@
 ;;;; -*- lexical-binding: t -*-
 
-(defconst macroutil-macroexp-buffer-name "*Macro expansion*")
+(defconst macroexp-view-macroexp-buffer-name "*Macro expansion*")
 
-(defun macroutil--macroexpand-sexp-at-point (all inline)
+(defun macroexp-view--macroexpand-sexp-at-point (all inline)
   ;; Do the heavy lifting of the macroexpansion.
   (condition-case err
       (let* ((obj (save-excursion
@@ -27,7 +27,7 @@
               ;; Inhibit read-only if we're in the special expansion buffer.
               (let ((inhibit-read-only
                      (if (string= (buffer-name (current-buffer))
-                                  macroutil-macroexp-buffer-name)
+                                  macroexp-view-macroexp-buffer-name)
                          t
                        inhibit-read-only)))
                 (delete-region beg end)
@@ -37,7 +37,7 @@
                 (when (bolp)
                   (delete-char -1))))))
          (t
-          (let* ((buf (get-buffer-create macroutil-macroexp-buffer-name)))
+          (let* ((buf (get-buffer-create macroexp-view-macroexp-buffer-name)))
             (unless (eq buf (current-buffer))
               (pop-to-buffer buf))
             (emacs-lisp-mode)
@@ -66,21 +66,21 @@
      (message "Can't do macro expansion: %s (%s)"
               (error-message-string err) (car err)))))
 
-(defun macroutil-macroexpand-sexp-at-point (&optional all)
+(defun macroexp-view-macroexpand-sexp-at-point (&optional all)
   "Macroexpand the S-expression at point, displaying the result in a \
 different buffer.
 Prefix argument ALL means expand all subforms too, as with `macroexpand-all'."
   (interactive "P")
-  (macroutil--macroexpand-sexp-at-point all nil))
+  (macroexp-view--macroexpand-sexp-at-point all nil))
 
-(defun macroutil-macroexpand-sexp-at-point-inline (&optional all)
+(defun macroexp-view-macroexpand-sexp-at-point-inline (&optional all)
   "Replace the S-expression at point with a macroexpanded version thereof.
 Prefix argument ALL means expand all subforms too, as with `macroexpand-all'."
   (interactive "P")
-  (macroutil--macroexpand-sexp-at-point all t))
+  (macroexp-view--macroexpand-sexp-at-point all t))
 
-(define-minor-mode macroutil-minor-mode nil nil nil
-  (list (cons (kbd "C-c m") 'macroutil-macroexpand-sexp-at-point)
-        (cons (kbd "C-c M-m") 'macroutil-macroexpand-sexp-at-point-inline)))
+(define-minor-mode macroexp-view-minor-mode nil nil nil
+  (list (cons (kbd "C-c m") 'macroexp-view-macroexpand-sexp-at-point)
+        (cons (kbd "C-c M-m") 'macroexp-view-macroexpand-sexp-at-point-inline)))
 
-(provide 'macroutil)
+(provide 'macroexp-view)
