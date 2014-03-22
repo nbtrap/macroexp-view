@@ -1,4 +1,10 @@
-;;;; -*- lexical-binding: t -*-
+;;; macroexp-view.el --- View macro expansions easily -*- lexical-binding: t -*-
+
+;; Copyright (C) 2014 Nathan Trapuzzano
+
+;; Author: Nathan Trapuzzano <nbtrap@nbtrap.com>
+;; Version: 1.0
+;; Keywords: convenience lisp maint tools
 
 ;;;###autoload
 (defconst mv-macroexp-buffer-name "*macroexp-view*")
@@ -93,3 +99,5 @@ otherwise."
         (cons (kbd "C-c M-m") 'mv-macroexpand-sexp-at-point-inline)))
 
 (provide 'macroexp-view)
+
+;;; macroexp-view.el ends here
