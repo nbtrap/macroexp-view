@@ -1,5 +1,6 @@
 ;;;; -*- lexical-binding: t -*-
 
+;;;###autoload
 (defconst mv-macroexp-buffer-name "*macroexp-view*")
 
 (defun mv--macroexpand-sexp-at-point (all inline)
@@ -68,6 +69,7 @@
               (error-message-string err) (car err))
      nil)))
 
+;;;###autoload
 (defun mv-macroexpand-sexp-at-point (&optional all)
   "Macroexpand the S-expression at point, displaying the result in a different buffer.
 Prefix argument ALL means expand all subforms too, as with
@@ -76,6 +78,7 @@ otherwise."
   (interactive "P")
   (mv--macroexpand-sexp-at-point all nil))
 
+;;;###autoload
 (defun mv-macroexpand-sexp-at-point-inline (&optional all)
   "Replace the S-expression at point with a macroexpanded version thereof.
 Prefix argument ALL means expand all subforms too, as with
@@ -84,6 +87,7 @@ otherwise."
   (interactive "P")
   (mv--macroexpand-sexp-at-point all t))
 
+;;;###autoload
 (define-minor-mode macroexp-view-minor-mode nil nil nil
   (list (cons (kbd "C-c m") 'mv-macroexpand-sexp-at-point)
         (cons (kbd "C-c M-m") 'mv-macroexpand-sexp-at-point-inline)))
