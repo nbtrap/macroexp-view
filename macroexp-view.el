@@ -1,6 +1,6 @@
 ;;;; -*- lexical-binding: t -*-
 
-(defconst mv-macroexp-buffer-name "*Macro expansion*")
+(defconst mv-macroexp-buffer-name "*macroexp-view*")
 
 (defun mv--macroexpand-sexp-at-point (all inline)
   ;; Do the heavy lifting of the macroexpansion.
@@ -61,21 +61,26 @@
         ;; to be writing in the buffer.
         (unless (eq obj macroexpanded-obj)
           (let ((inhibit-read-only t))
-            (indent-region (point) (save-excursion (forward-sexp) (point))))))
+            (indent-region (point) (save-excursion (forward-sexp) (point)))))
+        t)
     (error
      (message "Can't do macro expansion: %s (%s)"
-              (error-message-string err) (car err)))))
+              (error-message-string err) (car err))
+     nil)))
 
 (defun mv-macroexpand-sexp-at-point (&optional all)
-  "Macroexpand the S-expression at point, displaying the result in a \
-different buffer.
-Prefix argument ALL means expand all subforms too, as with `macroexpand-all'."
+  "Macroexpand the S-expression at point, displaying the result in a different buffer.
+Prefix argument ALL means expand all subforms too, as with
+`macroexpand-all'.  Return t if expansion succeeds, nil
+otherwise."
   (interactive "P")
   (mv--macroexpand-sexp-at-point all nil))
 
 (defun mv-macroexpand-sexp-at-point-inline (&optional all)
   "Replace the S-expression at point with a macroexpanded version thereof.
-Prefix argument ALL means expand all subforms too, as with `macroexpand-all'."
+Prefix argument ALL means expand all subforms too, as with
+`macroexpand-all'.  Return t if expansion succeeds, nil
+otherwise."
   (interactive "P")
   (mv--macroexpand-sexp-at-point all t))
 
