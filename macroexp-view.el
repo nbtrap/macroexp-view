@@ -19,6 +19,21 @@
 ;; You should have received a copy of the GNU General Public License along with
 ;; this program.  If not, see <http://www.gnu.org/licenses/>.
 
+;;; Commentary:
+
+;; `mv-macroexpand-sexp-at-point' and `mv-macroexpand-sexp-at-point-inline'
+;; perform macro expansion of the S-expression at point; the former displays the
+;; expansion in a popup buffer, while the latter displays it inline, replacing
+;; the expanded form.  With a prefix argument, all subforms get expanded as
+;; well.
+
+;; Additionally, a minor mode, `macroexp-view-minor-mode', is provided for
+;; binding the above commands to `C-c m' and `C-c M-m', respectively.  Add the
+;; minor mode command to `emacs-lisp-mode-hook' for the easiest setup, as in:
+;;
+;;   (require 'macroexp-view)
+;;   (add-hook 'emacs-lisp-mode-hook 'macroexp-view-minor-mode)
+
 ;;; Code:
 
 ;;;###autoload
