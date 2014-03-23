@@ -1,4 +1,4 @@
-;;; macroexp-view.el --- View macro expansions easily -*- lexical-binding: t -*-
+;;; macroexp-view.el --- Convenience commands for quickly and easily viewing macro expansions -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2014 Nathan Trapuzzano
 
