@@ -24,7 +24,7 @@
 ;; `mv-macroexpand-sexp-at-point' and `mv-macroexpand-sexp-at-point-inline'
 ;; perform macro expansion of the S-expression at point; the former displays the
 ;; expansion in a popup buffer, while the latter displays it inline, replacing
-;; the expanded form.  With a prefix argument, all subforms get expanded as
+;; the unexpanded form.  With a prefix argument, all subforms get expanded as
 ;; well.
 
 ;; Additionally, a minor mode, `macroexp-view-minor-mode', is provided for
