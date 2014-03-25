@@ -1,8 +1,8 @@
 #+TITLE: macroexp-view
 
-* DESCRIPTION
+* NAME
 
-Convenience commands for quickly and easily viewing macro expansions.
+macroexp-view - Convenience commands for quickly and easily viewing macro expansions.
 
 * SYNOPSIS
 
@@ -12,3 +12,22 @@ Convenience commands for quickly and easily viewing macro expansions.
   (add-hook 'emacs-lisp-mode-hook 'macroexp-view-minor-mode)
   (add-hook 'ielm-mode-hook 'macroexp-view-minor-mode)
 #+END_SRC
+
+* DESCRIPTION
+
+** =mv-macroexpand-sexp-at-point (&optional all)=
+
+Macroexpand the S-expression at point, displaying the result in a
+different byffer.  Prefix argument =all= means expand all subforms
+too, as with =macroexpand-all=.  Return =t= if expansion succeeds,
+=nil= otherwise.
+
+** =mv-macroexpand-sexp-at-point-inline=
+
+Like =mv-macroexpand-sexp-at-point=, except replace the unexpanded
+form with the expanded form.
+
+** =macroview-expand-minor-mode=
+
+A minor mode that binds the above functions to =C-c m= and =C-c M-m=,
+respectively.
